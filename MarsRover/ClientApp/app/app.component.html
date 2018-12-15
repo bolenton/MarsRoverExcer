@@ -1,0 +1,75 @@
+<div style="text-align:center">
+    <div class="jumbotron">
+        <h1>{{title}}</h1>
+        <div class="container-fluid" *ngIf="hasDefaultData && !photos; else have_photos">
+            <div class="form-row justify-content-center">
+                <div class="form-group col-md-3">
+                    <div class="input-group">
+                        <div ngbDropdown class="d-inline-block input-group-prepend">
+                            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{selectedRover}}</button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1" *ngIf="rovers && rovers.length > 0">
+                                <button class="dropdown-item" *ngFor="let rover of rovers" (click)="getRover(rover.name)">{{rover.name}}</button>
+                            </div>
+                        </div>
+
+                        <input type="text" ngbDatepicker (dateSelect)="onDateSelect($event)" #d="ngbDatepicker" />
+                        <span class="btn btn-primary input-group-append" (click)="d.toggle()">Select Date</span>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>{{selectedRover}}</h3>
+            <div class="row">
+                <div *ngFor="let data of defaultData" class="col-lg-4">
+                    <h4>{{data.dateString}}</h4>
+                    <ngb-carousel *ngIf="data.photos.length > 0;else no_content" [showNavigationIndicators]="false">
+                        <ng-template *ngFor="let photo of data.photos" ngbSlide>
+                            <img [src]="photo.img_src" width="100%" height="550" alt="Random first slide">
+                            <div class="carousel-caption">
+                                <h3>Camera: {{photo.camera.id}}</h3>
+                                <p>{{photo.camera.full_name}}</p>
+                                <a [href]="photo.img_src" download="test.jpg" target="_blank"><i class="fa fa-download fa-lg text-white" aria-hidden="true"></i></a>
+                            </div>
+                            
+                        </ng-template>
+                    </ngb-carousel>
+                    <ng-template #no_content>
+                        <h3>{{infoMessage}}</h3>
+                    </ng-template>
+                    <hr />
+                </div>
+            </div>
+        </div>
+
+        <ng-template #have_photos>
+            <h3 *ngIf="dateString">Images for {{selectedRover}} on {{dateString}}</h3>
+            <div *ngIf="(photos != null && photos.length > 0);else no_content">
+                <ngb-carousel [showNavigationIndicators]="false">
+                    <ng-template *ngFor="let photo of photos" ngbSlide>
+                        <img [src]="photo.img_src" width="50%" height="550" alt="Random first slide">
+                        <div class="carousel-caption">
+                            <h3>Camera: {{photo.camera.id}}</h3>
+                            <p>{{photo.camera.full_name}}</p>
+                            <p>{{photo.rover.name}}</p>
+
+                            <!--Due to non https, I can't download the image by using the getImageForDownload() method, so we can open the image for now.-->
+                            <a [href]="photo.img_src" download="test.jpg" target="_blank"><i class="fa fa-download fa-lg text-white" aria-hidden="true"></i></a>
+                        </div>
+                    </ng-template>
+                </ngb-carousel>
+            </div>
+
+            <ng-template #no_content>
+                <h3>{{infoMessage}}</h3>
+            </ng-template>
+            <img *ngIf="!hasDefaultData && hasHttpError" src="../assets/nonono.gif" alt="Alternate Text" />
+            <hr />
+            <button class="btn btn-success" *ngIf="(!hasDefaultData && hasHttpError) || (photos != null && photos.length > 0)" (click)="loadDefaultData()">Start Over</button>
+        </ng-template>
+    </div>
+</div>
+
+
+
+
+

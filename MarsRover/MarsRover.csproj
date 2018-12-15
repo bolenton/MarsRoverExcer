@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Authors>Taurus O</Authors>
+    <Version>1.0.1</Version>
+    <Company></Company>
+    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <Product />
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Data\defaultDates.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\app\model\Camera.ts" />
+    <None Remove="ClientApp\app\model\Rover.ts" />
+    <None Remove="ClientApp\app\model\rovercamera.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\defaultDates.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.0.1916590" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\model\Camera.ts" />
+    <TypeScriptCompile Include="ClientApp\app\model\Rover.ts" />
+    <TypeScriptCompile Include="ClientApp\app\model\RoverCamera.ts" />
+  </ItemGroup>
+
+</Project>
