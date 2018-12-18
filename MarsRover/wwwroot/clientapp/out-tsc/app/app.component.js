@@ -74,6 +74,19 @@ var AppComponent = /** @class */ (function () {
         this.photoSub.unsubscribe();
         this.imageSub.unsubscribe();
     };
+    AppComponent.prototype.displayDownloadInfo = function (photoId) {
+        alert("here");
+        var downloadLink = "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/02070/opgs/edr/rcam/RLB_581260590EDR_F0701752RHAZ00341M_.JPG";
+        this.nasaService.getImage(downloadLink, photoId).subscribe(function (res) {
+            alert("fanilly here");
+            console.log(res);
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(res);
+            a.download = "Title";
+            document.body.appendChild(a);
+            a.click();
+        });
+    };
     AppComponent = __decorate([
         Component({
             selector: 'app-root',

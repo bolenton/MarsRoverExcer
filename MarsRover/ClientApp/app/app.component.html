@@ -28,7 +28,7 @@
                             <div class="carousel-caption">
                                 <h3>Camera: {{photo.camera.id}}</h3>
                                 <p>{{photo.camera.full_name}}</p>
-                                <a [href]="photo.img_src" download="test.jpg" target="_blank"><i class="fa fa-download fa-lg text-white" aria-hidden="true"></i></a>
+                                <span   (click)="displayDownloadInfo(photo.img_src, photo.id)"><i class="fa fa-download fa-lg text-white" aria-hidden="true"></i></span>
                             </div>
                             
                         </ng-template>
@@ -51,9 +51,7 @@
                             <h3>Camera: {{photo.camera.id}}</h3>
                             <p>{{photo.camera.full_name}}</p>
                             <p>{{photo.rover.name}}</p>
-
-                            <!--Due to non https, I can't download the image by using the getImageForDownload() method, so we can open the image for now.-->
-                            <a [href]="photo.img_src" download="test.jpg" target="_blank"><i class="fa fa-download fa-lg text-white" aria-hidden="true"></i></a>
+                            <span (click)="displayDownloadInfo(photo.img_src, photo.id)"><i class="fa fa-download fa-lg text-white" aria-hidden="true"></i></span>
                         </div>
                     </ng-template>
                 </ngb-carousel>

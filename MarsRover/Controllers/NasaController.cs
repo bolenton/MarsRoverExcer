@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MarsRover.Service;
 using MarsRover.Service.Error;
+using MarsRover.Service.Nasa;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarsRover.Controllers
@@ -50,7 +50,7 @@ namespace MarsRover.Controllers
 
                 return result.Any()
                     ? Ok(result) as IActionResult
-                    : NotFound(new {message = "Looks like NASA departed abandoned Mars."});
+                    : NotFound(new {message = "Looks like NASA abandoned Mars."});
             }
             catch (Exception ex)
             {
@@ -71,8 +71,7 @@ namespace MarsRover.Controllers
             {
                 _logger.WriteErrorLog(ex.Message);
                 return StatusCode(500, new { error = "Internal Server Error, Please try again later" });
-            }
-            
+            }          
         }
     }
 }

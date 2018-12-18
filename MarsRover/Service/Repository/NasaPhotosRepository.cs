@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MarsRover.Models;
@@ -8,15 +7,12 @@ using Newtonsoft.Json;
 
 namespace MarsRover.Service.Repository
 {
-    public class NasaPhotosRepository : INasaPhotoRepository
+    public class NasaPhotosRepository : BaseHttpService, INasaPhotoRepository
     {
-        private readonly HttpClient _apiClient;
-
-        public NasaPhotosRepository(IHttpClientFactory httpClientFactory, IConfiguration configuration)
+        public NasaPhotosRepository(IHttpClientFactory httpClientFactory, IConfiguration configuration) :
+            base(httpClientFactory, configuration)
         {
-            _apiClient = httpClientFactory.CreateClient();
-            _apiClient.BaseAddress = new 
-                Uri(configuration.GetSection(nameof(AppConst.ApiBaseUrl))[nameof(AppConst.Nasa)]);
+
         }
 
         public async Task<IEnumerable<Photo>> GetPhoto(string rover, string earthDate)

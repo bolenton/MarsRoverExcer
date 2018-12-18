@@ -1,6 +1,8 @@
 ﻿
 using MarsRover.Service;
 using MarsRover.Service.Error;
+using MarsRover.Service.Image;
+using MarsRover.Service.Nasa;
 using MarsRover.Service.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -87,6 +89,7 @@ namespace MarsRover
         {
             services.AddTransient<ILogger, ErrorLogger>();
             services.AddTransient<INasaService, NasaService>();
+            services.AddTransient<IImageService, ImageService>();
             services.AddTransient<INasaPhotoRepository, NasaPhotosRepository>();
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MarsRover.Models;
 
-namespace MarsRover.Service
+namespace MarsRover.Service.Nasa
 {
     public interface INasaService
     {

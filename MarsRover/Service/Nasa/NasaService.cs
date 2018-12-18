@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 
-namespace MarsRover.Service
+namespace MarsRover.Service.Nasa
 {
     public class NasaService : INasaService
     {
