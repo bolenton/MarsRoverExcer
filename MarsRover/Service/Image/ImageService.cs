@@ -11,7 +11,7 @@ namespace MarsRover.Service.Image
 {
     public class ImageService : BaseHttpService, IImageService
     {
-        private const string ImageDirectory = "Images";
+        private readonly string _imageDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}images";
 
         public ImageService(IHttpClientFactory httpClientFactory, IConfiguration configuration) 
             : base(httpClientFactory, configuration)
@@ -21,7 +21,8 @@ namespace MarsRover.Service.Image
 
         public async Task SaveJpegImageAsync(Uri requestUri, string filename)
         {
-            var filePath = $"{ImageDirectory}\\{filename}";
+            EnsureImageDirectoryExist();
+            var filePath = $"{_imageDirectory}\\{filename}";
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
             using (
@@ -36,15 +37,16 @@ namespace MarsRover.Service.Image
 
         public FileStream RetrieveJpgImage(string filename)
         {
-            return File.OpenRead($"{ImageDirectory}\\{filename}");
+            return File.OpenRead($"{_imageDirectory}\\{filename}");
         }
 
         public IEnumerable<string> RetrieveAllJpgImage()
         {
-            var imgList = new List<string>();
-            var results = Directory.EnumerateFiles(ImageDirectory);
+            EnsureImageDirectoryExist();
 
-            results?.ToList().ForEach(c => imgList.Add(c));
+            var imgList = new List<string>();
+            var results = Directory.EnumerateFiles(_imageDirectory);
+            results?.ToList().ForEach(c => imgList.Add(c.Substring(c.IndexOf("\\images\\") + 9)));
 
             return imgList;
         }
@@ -55,10 +57,16 @@ namespace MarsRover.Service.Image
 
             if (images.Count() > 25)
             {
-                FileSystemInfo fileInfo = new DirectoryInfo(ImageDirectory).GetFileSystemInfos()
+                FileSystemInfo fileInfo = new DirectoryInfo(_imageDirectory).GetFileSystemInfos()
                     .OrderBy(fi => fi.CreationTime).First();
-                File.Delete($"{ImageDirectory}\\{fileInfo.Name}");
+                File.Delete($"{_imageDirectory}\\{fileInfo.Name}");
             }
+        }
+
+        private void EnsureImageDirectoryExist()
+        {
+            if (!Directory.Exists(_imageDirectory))
+                Directory.CreateDirectory(_imageDirectory);
         }
     }
 }

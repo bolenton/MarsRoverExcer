@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   marsrover:
-    image: suruat/marsrover:rc
+    image: suruat/marsrover:rc2
     build:
       context: .
       dockerfile: MarsRover/Dockerfile

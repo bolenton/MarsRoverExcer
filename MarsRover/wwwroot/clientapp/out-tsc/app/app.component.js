@@ -28,13 +28,11 @@ var AppComponent = /** @class */ (function () {
         this.infoMessage = "Loading, please hang on";
         this.roverSub = this.nasaService.getRovers().subscribe(function (result) {
             _this.rovers = result;
-            //console.log(result);
             _this.selectedRover = result[0].name;
             _this.defaultSub = _this.nasaService.getDefaultData(_this.selectedRover).subscribe(function (result) {
                 _this.defaultData = result;
                 _this.hasDefaultData = true;
                 _this.photos = undefined;
-                //console.log(this.defaultData);
             });
         });
     };
@@ -43,7 +41,6 @@ var AppComponent = /** @class */ (function () {
         this.defaultData = null;
         this.selectedRover = roverName;
         this.defaultSub = this.nasaService.getDefaultData(roverName).subscribe(function (result) {
-            //console.log(result);
             _this.defaultData = result;
         }, function (result) {
             _this.hasHttpError = true;
@@ -60,7 +57,6 @@ var AppComponent = /** @class */ (function () {
             _this.photos = result;
             _this.defaultData = new DefaultPhoto(earthDate, result);
             _this.dateString = earthDate;
-            //console.log(this.defaultData);
         }, function (result) {
             _this.photos = undefined;
             _this.hasDefaultData = false;
@@ -74,17 +70,16 @@ var AppComponent = /** @class */ (function () {
         this.photoSub.unsubscribe();
         this.imageSub.unsubscribe();
     };
-    AppComponent.prototype.displayDownloadInfo = function (photoId) {
-        alert("here");
-        var downloadLink = "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/02070/opgs/edr/rcam/RLB_581260590EDR_F0701752RHAZ00341M_.JPG";
+    AppComponent.prototype.displayDownloadInfo = function (downloadLink, photoId) {
         this.nasaService.getImage(downloadLink, photoId).subscribe(function (res) {
-            alert("fanilly here");
             console.log(res);
             var a = document.createElement('a');
             a.href = URL.createObjectURL(res);
-            a.download = "Title";
+            a.download = photoId + ".jpg";
             document.body.appendChild(a);
             a.click();
+        }, function (error) {
+            console.log(error);
         });
     };
     AppComponent = __decorate([
